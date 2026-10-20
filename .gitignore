@@ -1,0 +1,11 @@
+.pio/
+.vscode/
+
+ch32v003a4m6.svg
+ch32v003a4m6.png
+NOTE.md
+
+test_ch32v003/
+uno/
+nano/
+
