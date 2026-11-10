@@ -4,8 +4,10 @@
 #include "ook_tx.h"
 
 // фиксированный номер передатчика (1..254; 0 и 255 не использовать)
+// В ESPHome он указывается как transmitter_id.
 const static uint8_t id_transmitter = 0x01;
 
+// ============================== ПИНЫ ==============================
 // пины HDC1080
 // Линии I2C: SDA -> PC2, SCL -> PC1
 // PC3 -> VCC, PC4 -> GND
@@ -17,6 +19,10 @@ const static uint8_t id_transmitter = 0x01;
 // пины передатчика
 #define PIN_RF_DATA           PC0
 #define PIN_RF_EN             PA2
+
+// неиспользуемые пины: вход с подтяжкой к плюсу
+#define UNUSED_PINS           {PA1, PC5, PC6, PC7, PD0, PD1, PD2, PD3, PD4, PD5, PD6, PD7}
+// ==================================================================
 
 // сон: один шаг ~30 с (~34 с на практике, зависит от LSI)
 #define SLEEP_STEPS  15  // 15 шагов ~ 9 минут между измерениями; 1 = быстрый режим для отладки
@@ -65,7 +71,7 @@ int main(void)
     Delay_Ms(5000); // Время подключиться и перепрошить микроконтроллер
 
     // Неиспользуемые пины
-    const uint8_t unused[] = {PA1, PC5, PC6, PC7, PD0, PD1, PD2, PD3, PD4, PD5, PD6, PD7};
+    const uint8_t unused[] = UNUSED_PINS;
     for (uint8_t i = 0; i < sizeof(unused); i++) {
         funDigitalWrite(unused[i], FUN_HIGH);   // бит OUTDR выбирает подтяжку к плюсу
         funPinMode(unused[i], GPIO_CFGLR_IN_PUPD);
