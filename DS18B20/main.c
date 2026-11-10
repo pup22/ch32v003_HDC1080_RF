@@ -2,6 +2,8 @@
 #include "ch32fun.h"
 #include "ds18b20.h"
 #include "ook_tx.h"
+#include "adc_vdd.h"
+#include "sleep.h"
 
 // фиксированный номер передатчика (1..254; 0 и 255 не использовать)
 // В ESPHome он указывается как transmitter_id.
@@ -38,11 +40,6 @@ const static uint8_t id_transmitter = 0x02;
 #define OFFSET_PRESSURE       4
 #define OFFSET_VOLTAGE        6
 #define NO_DATA               0xFFFF
-
-// функции измерения напряжения питания
-extern uint32_t Get_Calculated_VDD_mV(void);
-// функции сна
-extern void sleep_30s(void);
 
 // Записать 16-битное значение в буфер пакета, старший байт первым
 static void put_u16(uint8_t *buf, uint8_t offset, uint16_t value)
